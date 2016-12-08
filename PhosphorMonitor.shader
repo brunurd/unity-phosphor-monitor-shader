@@ -59,11 +59,11 @@
 
 				// GRAYSCALE
 				float grayscale = (col.r + col.g + col.b) / 3;
-				float finalCol = (grayscale - scanline) - vignette;
+				float finalCol = ((grayscale / _White) - scanline) - vignette;
 				
-				col.r = finalCol / _White;
-				col.g = (finalCol / _Green) / _White;
-				col.b = finalCol / _White;
+				col.r = finalCol;
+				col.g = (finalCol / _Green);
+				col.b = finalCol;
 				return col;
 			}
 			ENDCG
