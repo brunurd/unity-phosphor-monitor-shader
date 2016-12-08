@@ -1,5 +1,5 @@
 ﻿Shader "Hidden/PhosphorMonitor" {
-	
+
 	Properties {
 		_MainTex ("Texture", 2D) = "white" {}
 		_Scanline ("Scanline", Int) = 100010
@@ -7,9 +7,9 @@
 		_Green ("Green",Range(0.0,1.0)) = 0.5
 		_White("White",Range(0.0,1.0)) = 0.8
 	}
-	
+
 	SubShader {
-		
+
 		Cull Off
 		ZWrite Off
 		ZTest Always
@@ -18,7 +18,7 @@
 			CGPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
-			
+
 			#include "UnityCG.cginc"
 
 			struct appdata {
@@ -37,13 +37,13 @@
 				o.uv = v.uv;
 				return o;
 			}
-			
+
 			uniform sampler2D _MainTex;
 			int _Scanline;
 			fixed _Vignette;
 			fixed _Green;
 			fixed _White;
-			
+
 			fixed4 frag (v2f i) : SV_Target {
 
 				// SCANLINES
@@ -58,9 +58,9 @@
 				fixed4 col = tex2D(_MainTex, i.uv);
 
 				// GRAYSCALE
-				float grayscale = (col.r + col.g + col.b) / 3;
+				float grayscale = col.r * 0.216 + col.g * 0.715 + col.b * 0.072;
 				float finalCol = ((grayscale / _White) - scanline) - vignette;
-				
+
 				col.r = finalCol;
 				col.g = (finalCol / _Green);
 				col.b = finalCol;
